@@ -41,7 +41,7 @@ export function fullPhone(phone, countryCode) {
 
 // Banglish reminder message template.
 export function reminderMessage({ guardian, student, className, roll, month, amount, schoolName }) {
-  return `Priyo ${guardian}, ${student} (Class ${className}, Roll ${roll}) er ${monthLabel(month)} masher fee (₹${amount}) ekhono jama hoyni. Doya kore fee jama din. Dhonnobad — ${schoolName}.`
+  return `Dear ${guardian}, ${student.split(" ")[0]}  hasn't yet paid    ${monthLabel(month)} tution fee  (₹${amount}). Please try to pay it soon. Thank you 😊  — ${schoolName}.`
 }
 
 export function whatsappUrl(fullNumber, message) {
