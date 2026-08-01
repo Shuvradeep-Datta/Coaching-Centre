@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Card, SectionTitle, ClassPills, Field, TextInput, ClassSelect } from './ui'
-import { CLASSES, uid, sortStudents } from '../lib/utils'
+import { CLASSES, uid, sortStudents, nextSerial } from '../lib/utils'
 
 const EMPTY = { name: '', roll: '', className: '5', guardianName: '', phone: '' }
 
@@ -9,6 +9,10 @@ export default function Students({ students, setStudents }) {
   const [editingId, setEditingId] = useState(null)
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
+
+  // Auto Sl No. for a new student; while editing we keep the student's own roll.
+  const autoRoll = nextSerial(students)
+  const slNo = editingId ? form.roll : autoRoll
 
   function set(field, value) {
     setForm((f) => ({ ...f, [field]: value }))
@@ -20,7 +24,7 @@ export default function Students({ students, setStudents }) {
     if (editingId) {
       setStudents((list) => list.map((s) => (s.id === editingId ? { ...s, ...form } : s)))
     } else {
-      setStudents((list) => [...list, { id: uid(), ...form }])
+      setStudents((list) => [...list, { id: uid(), ...form, roll: autoRoll }])
     }
     setForm(EMPTY)
     setEditingId(null)
@@ -63,8 +67,14 @@ export default function Students({ students, setStudents }) {
           <Field label="Name">
             <TextInput value={form.name} onChange={(e) => set('name', e.target.value)} placeholder="Full name" required />
           </Field>
-          <Field label="Sl No.">
-            <TextInput value={form.roll} onChange={(e) => set('roll', e.target.value)} placeholder="e.g. 12" />
+          <Field label="Sl no.">
+            <TextInput
+              value={slNo}
+              readOnly
+              tabIndex={-1}
+              title="Auto-generated serial number"
+              className="cursor-not-allowed bg-slate-50 text-slate-500"
+            />
           </Field>
           <Field label="Class">
             <ClassSelect value={form.className} onChange={(e) => set('className', e.target.value)} />

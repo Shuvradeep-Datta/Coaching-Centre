@@ -52,6 +52,16 @@ export function smsUrl(fullNumber, message) {
   return `sms:${fullNumber}?body=${encodeURIComponent(message)}`
 }
 
+// Next global Sl No. = highest existing numeric roll + 1, so deleting a
+// student never lets an old number be reused (avoids duplicates). Starts at 1.
+export function nextSerial(students) {
+  const max = students.reduce((m, s) => {
+    const n = Number(s.roll)
+    return !isNaN(n) && n > m ? n : m
+  }, 0)
+  return max + 1
+}
+
 // Sort students by class (numeric) then roll (numeric-aware).
 export function sortStudents(list) {
   return [...list].sort((a, b) => {
