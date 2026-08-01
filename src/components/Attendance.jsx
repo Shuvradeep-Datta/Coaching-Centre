@@ -3,7 +3,7 @@ import { Card, SectionTitle, Badge, Field, ClassSelect, inputCls } from './ui'
 import { isoDate, sortStudents } from '../lib/utils'
 
 export default function Attendance({ students, attendance, setAttendance }) {
-  const [className, setClassName] = useState(['5','6','7','8','9','10'])
+  const [className, setClassName] = useState(['5'])
   const [date, setDate] = useState(isoDate())
 
   const dayRecord = attendance[date] || {}
